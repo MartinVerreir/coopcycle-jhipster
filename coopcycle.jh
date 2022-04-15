@@ -1,0 +1,55 @@
+entity Client {
+    nom String required pattern(/^[A-Z][a-z]+$/) maxlength(30)
+    prenom String required pattern(/^[A-Z][a-z]+$/) maxlength(30)
+    mail String
+    tel String
+    addresse String required maxlength(100)
+}
+
+entity Panier {
+    montant Float required min(0)
+    dateLimite Float required
+}
+
+entity Paiement {
+	montant Float required min(0)
+}
+
+entity Livreur {
+    nom String required pattern(/^[A-Z][a-z]+$/) maxlength(30)
+    prenom String required pattern(/^[A-Z][a-z]+$/) maxlength(30)
+    tel String
+}
+
+entity Cooperative {
+    nom String required,
+    directeur String
+}
+
+entity Commercant {
+    carte String,
+    menus String,
+    horaires Float,
+    adresse String required
+}
+
+entity Commande {
+	adresseLivraison String required,
+    echeance Float required
+}
+
+relationship OneToOne {
+    Panier to Paiement
+    Paiement to Commande
+}
+
+relationship OneToMany {
+	Cooperative to Livreur
+    Client to Panier,
+    Commercant to Panier,
+    Livreur to Commande,
+    Client to Panier
+    Client to Commande
+}
+
+dto * with mapstruct
